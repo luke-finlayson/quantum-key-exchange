@@ -12,25 +12,32 @@ Created by Luke Finlayson, 1557835
 '''
 
 class Transmitter:
-    def __init__(self, verbose=None):
+    def __init__(self, port):
+      self.port = port
       self.qke = QKE()
-      self.verbose = verbose
+      self.xor = None
 
     '''
     Connect to a receiver listening on the given port
     '''
-    def connect(self, port) -> bool:
+    def connect(self) -> bool:
        # Attempt to connect to a receiver
       try:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect(('localhost', port))
+        self.socket.connect(('localhost', self.port))
 
         return True
       except:
         print("[Transmitter] Failed to connect.")
         return False
       
+    '''
+    Attempt to connect to a receiver and establish
+    a new secret key.
+    '''
     def establishKey(self, length):
+      self.connect()
+
       # Send a stream of qubits to the receiver
       for i in range(length):
         value, polarisation = self.qke.generateQubit()
@@ -48,13 +55,49 @@ class Transmitter:
       self.socket.send(bytes(self.qke.polarisations))
 
       self.key = self.qke.createKey(receivedPolarisations)
+
+      self.close()
     
+    '''
+    Attempt to send a message to a receiver encoded
+    with the previously established secret key.
+    '''
     def sendMessage(self, message: str):
+      # First attempt to open connection
+      if not self.connect():
+        return
+
       if not self.xor:
         self.xor = XOR(self.key)
 
       encoded = self.xor.encode(message)
       self.socket.send(encoded)
 
+      self.close()
+
     def close(self):
       self.socket.close()
+
+
+'''
+Simple main process so transmitter can be run as a 
+standalone program.
+
+Note: no error handling
+'''
+if __name__ == "__main__":
+  port = int(input("Use port: "))
+  transmitter = Transmitter(port)
+
+  while True:
+    action = input("\n[Options]\n\t(1) Establish Key\n\t(2) Send Message\n\t(*) Quit\nChoose action: ")
+
+    match action:
+      case "1":
+        length = int(input("\nUse length: "))
+        transmitter.establishKey(length)
+      case "2":
+        message = input("\nEnter message: ")
+        transmitter.sendMessage(message)
+      case _:
+        break

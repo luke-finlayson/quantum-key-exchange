@@ -1,9 +1,22 @@
 from math import ceil
 
 class XOR:
-    def __init__(self, key: int, keyLength: int):
-      self.key = key
-      self.keyLength = keyLength
+    '''
+    Key is a binary value represented as an array
+    of bytes - where each element is a single bit.
+
+    Not very practical - but works for the purposes
+    of this assignment
+    '''
+    def __init__(self, key: bytes):
+      # Merge the bytes key into an int
+      self.key = 0
+
+      for i in key:
+        self.key <<= 1
+        self.key |= i
+
+      self.keyLength = len(key)
 
     ''' 
     Creates a key for a given length in bytes
@@ -23,11 +36,11 @@ class XOR:
     '''
     Use the stored key to XOR a byte array
     '''
-    def cipher(self, value: bytes) -> bytes:
-      key = self.generateKey(len(value))
+    def cipher(self, message: bytes) -> bytes:
+      key = self.generateKey(len(message))
 
       # XOR the phrase with the key and return the encoded value
-      return bytes([a ^ b for a, b in zip(value, key)]) 
+      return bytes([a ^ b for a, b in zip(message, key)]) 
 
     '''
     Encode a given string into a XOR ciphered byte array

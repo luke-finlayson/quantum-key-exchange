@@ -9,7 +9,7 @@ Created by Luke Finlayson, 1557835
 '''
 
 def test_encodeRegularKey():
-    xor = XOR(0b01010101, 8)
+    xor = XOR(bytes([0,1,0,1,0,1,0,1]))
     phrase = "hello world!"
     
     expected = bytes([
@@ -30,7 +30,7 @@ def test_encodeRegularKey():
     assert xor.encode(phrase) == expected
 
 def test_encodeSmallKey():
-    xor = XOR(0b101, 3)
+    xor = XOR(bytes([1,0,1]))
     phrase = "brown fox"
     
     expected = bytes([
@@ -48,7 +48,7 @@ def test_encodeSmallKey():
     assert xor.encode(phrase) == expected
 
 def test_encodeLargeKey():
-    xor = XOR(0b00101110001011101, 17)
+    xor = XOR(bytes([0,0,1,0,1,1,1,0,0,0,1,0,1,1,1,0,1]))
     phrase = "a"
 
     expected = bytes([
@@ -58,7 +58,7 @@ def test_encodeLargeKey():
     assert xor.encode(phrase) == expected
 
 def test_encodeDecodeMatch():
-    xor = XOR(0b11101101, 8)
+    xor = XOR(bytes([1,1,1,0,1,1,0,1]))
     phrase = "expected"
 
     encoded = xor.encode(phrase)
