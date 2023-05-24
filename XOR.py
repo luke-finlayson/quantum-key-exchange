@@ -5,7 +5,7 @@ class XOR:
     Key is a binary value represented as an array
     of bytes - where each element is a single bit.
 
-    Not very practical - but works for the purposes
+    Not very efficient space wise - but works for the purposes
     of this assignment
     '''
     def __init__(self, key: bytes):
