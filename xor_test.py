@@ -1,5 +1,5 @@
 import pytest
-from XOR import XOR
+from xor import XOR
 
 '''
 Testing the XOR cipher class.

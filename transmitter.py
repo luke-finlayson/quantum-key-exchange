@@ -1,6 +1,6 @@
 import socket
-from QKE import QKE
-from XOR import XOR
+from qke import QKE
+from xor import XOR
 
 '''
 A simple transmitter that establishes a secret key with a 

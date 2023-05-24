@@ -1,7 +1,7 @@
 from threading import Thread
 import pytest
 
-from QKE import QKE
+from qke import QKE
 from receiver import Receiver
 from transmitter import Transmitter
 
@@ -45,7 +45,7 @@ def test_otherPolarisation():
     key = qke.createKey(receivedPolarisations)
 
     assert key != expectedKey
-    assert key != None
+    assert key is not None
 
 def test_emptyPolarisation():
     # Generate some polarisations
@@ -115,7 +115,7 @@ def exchangeMessages(messages: list, length: int):
     receiver = Receiver()
     port = receiver.open()
 
-    assert port != None
+    assert port is not None
 
     transmitter = Transmitter(port)
 
@@ -140,7 +140,7 @@ def exchangeMessages(messages: list, length: int):
         rThread.join()
         tThread.join()
 
-        assert rThread.value != None
+        assert rThread.value is not None
         assert rThread.value == message
 
 def createKeys(length: int):
@@ -150,7 +150,7 @@ def createKeys(length: int):
       receiver = Receiver()
       port = receiver.open()
 
-      assert port != None
+      assert port is not None
 
       transmitter = Transmitter(port)
 
@@ -165,9 +165,9 @@ def createKeys(length: int):
       rThread.join()
 
       # Assert
+      assert tThread.value is not None
       assert tThread.value == rThread.value
       assert len(tThread.value) != 0
-      assert tThread.value != None
 
 def transmitterGetKey(transmitter: Transmitter, length: int):
     transmitter.establishKey(length)

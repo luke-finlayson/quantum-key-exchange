@@ -1,8 +1,8 @@
 import socket
 
-from QKE import QKE
-from Qubit import Qubit
-from XOR import XOR
+from qke import QKE
+from qubit import Qubit
+from xor import XOR
 
 '''
 A simple receiver that establishes a secret key with a

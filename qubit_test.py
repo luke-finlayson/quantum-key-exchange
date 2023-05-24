@@ -1,5 +1,5 @@
 import pytest
-from Qubit import *
+from qubit import *
 
 '''
 Testing the emulation of a qubit

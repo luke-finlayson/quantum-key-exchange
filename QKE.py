@@ -1,5 +1,5 @@
 import random
-from Qubit import Qubit
+from qubit import Qubit
 
 class QKE:
     def __init__(self):
